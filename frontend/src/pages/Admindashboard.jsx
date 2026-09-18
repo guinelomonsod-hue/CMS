@@ -12,6 +12,14 @@ import {
   CheckCircle2,
 } from 'lucide-react'
 import logo from '../assets/logo.jpg'
+import { useNavigate } from 'react-router-dom';
+
+const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+
+  navigate("/login");
+};
 
 const stats = [
   { label: 'Total Complaints', value: 248, icon: ClipboardList },
@@ -117,7 +125,6 @@ const navItems = [
 ]
 
 function AdminDashboard() {
-  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <div className="flex min-h-screen bg-[#F7F8F4]">
@@ -145,11 +152,10 @@ function AdminDashboard() {
               <a
                 key={item.label}
                 href={item.href}
-                className={`flex items-center gap-3 rounded px-3 py-2.5 text-sm font-medium transition-colors ${
-                  item.active
+                className={`flex items-center gap-3 rounded px-3 py-2.5 text-sm font-medium transition-colors ${item.active
                     ? 'bg-[#1F7A4D] text-white'
                     : 'text-[#3f4a43] hover:bg-[#F7F8F4]'
-                }`}
+                  }`}
               >
                 <Icon size={18} />
                 {item.label}
@@ -164,8 +170,10 @@ function AdminDashboard() {
             href="/"
             className="flex items-center gap-3 rounded px-3 py-2.5 text-sm font-medium text-[#9a3f3f] hover:bg-[#f7ebeb]"
           >
-            <LogOut size={18} />
-            Log Out
+            <button onClick={handleLogout}>
+              <LogOut size={18} />
+              <span>Logout</span>
+            </button>
           </a>
         </div>
       </aside>

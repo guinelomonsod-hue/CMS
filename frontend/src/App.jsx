@@ -10,16 +10,24 @@ function app() {
   return (
     <BrowserRouter>
     <Routes>
+
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
+      
 
-      <Route element={<ProtectedRoute />} />
+      //login Protected Route
+      <Route element={<ProtectedRoute role="admin" />} >
       <Route path="/admin" element={<AdminDashboard />} />
-      <Route path="/citizen" element={<CitizenDashboard />} />
+      </Route>
+
+      //citizen Protected Route 
+      <Route element={<ProtectedRoute role="citizen" />}>   
+       <Route path="/citizen" element={<CitizenDashboard />} />
+       </Route>  
     </Routes>
     
     </BrowserRouter>
-  )
+  );
 
 }
 
