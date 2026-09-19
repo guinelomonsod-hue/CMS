@@ -4,6 +4,7 @@ import LoginPage from "./pages/Loginpage";
 import AdminDashboard from "./pages/Admindashboard";
 import CitizenDashboard from "./pages/Citizendashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import RegisterPage from "./Authpages/Registerpage";
 
 
 function app() {
@@ -13,6 +14,7 @@ function app() {
 
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />}/>
       
 
       //login Protected Route
@@ -20,10 +22,13 @@ function app() {
       <Route path="/admin" element={<AdminDashboard />} />
       </Route>
 
-      //citizen Protected Route 
+      //citizen Protected Route //
       <Route element={<ProtectedRoute role="citizen" />}>   
        <Route path="/citizen" element={<CitizenDashboard />} />
        </Route>  
+
+      
+
     </Routes>
     
     </BrowserRouter>

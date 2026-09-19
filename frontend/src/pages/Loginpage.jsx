@@ -26,7 +26,12 @@ function LoginPage() {
 
     localStorage.setItem("user", JSON.stringify(response.data.user));
 
-    navigate('/admin');
+    if(response.data.user.role === "admin") {
+      navigate("/admin"); 
+    } else if (response.data.user.role === "citizen") {
+      navigate("/citizen");
+    }
+
 
     console.log("Login successful!");
     console.log("Token saved!");
