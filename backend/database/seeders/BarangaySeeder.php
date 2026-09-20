@@ -26,7 +26,7 @@ class BarangaySeeder extends Seeder
         foreach ($barangays as $barangay) {
             DB::table('barangays') ->updateOrInsert(
                 ['barangay_name' => $barangay],
-                ['created_at' => now(), 'update_at' =>now()]
+                ['created_at' => now(), 'updated_at' =>now()]
             );
         }
     }
