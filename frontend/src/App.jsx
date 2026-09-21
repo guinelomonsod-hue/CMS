@@ -5,6 +5,7 @@ import AdminDashboard from "./pages/Admindashboard";
 import CitizenDashboard from "./pages/Citizendashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RegisterPage from "./Authpages/Registerpage";
+import SubmitComplaint from "./pages/Submitcomplaint";
 
 
 function app() {
@@ -25,9 +26,9 @@ function app() {
       //citizen Protected Route //
       <Route element={<ProtectedRoute role="citizen" />}>   
        <Route path="/citizen" element={<CitizenDashboard />} />
+       <Route path="/submit" element={<SubmitComplaint />} />
        </Route>  
 
-      
 
     </Routes>
     

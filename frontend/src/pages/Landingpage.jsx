@@ -164,7 +164,7 @@ function LandingPage() {
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
 
               <a
-                href="/submit"
+                href="/login"
                 className="rounded bg-[#1F7A4D] px-7 py-3 text-center font-medium text-white transition-colors hover:bg-[#123B25]"
               >
                 Submit a Complaint

@@ -1,24 +1,27 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import logo from "../assets/logo.jpg";
 
-const barangays = [
-  "Baluarte",
-  "Casinglot",
-  "Gracia",
-  "Mohon",
-  "Natumolan",
-  "Poblacion",
-  "Rosario",
-  "Santa Ana",
-  "Santa Cruz",
-  "Sugbongcogon",
-];
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const [barangays, setBarangays] = useState([]);
+
+
+  useEffect(() => {
+  const fetchBarangays = async () => {
+    try {
+      const response = await api.get("/barangays");
+      setBarangays(response.data);
+    } catch (error) {
+      console.log("Failed to fetch barangays:", error);
+    }
+  };
+
+  fetchBarangays();
+}, []);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,38 +44,41 @@ function RegisterPage() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // Check if passwords match
-    if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
+  if (form.password !== form.confirmPassword) {
+    alert("Passwords do not match.");
+    return;
+  }
 
-    try {
-      const response = await api.post("/register", {
-        name: `${form.firstName} ${form.lastName}`,
-        email: form.email,
-        password: form.password,
-        password_confirmation: form.confirmPassword,
-      });
+  try {
+    const response = await api.post("/register", {
+      first_name: form.firstName,
+      last_name: form.lastName,
+      contact_number: form.contactNumber,
+      address: form.address,
+      barangay_id: form.barangay,
+      email: form.email,
+      password: form.password,
+      password_confirmation: form.confirmPassword,
+    });
 
-      console.log("Registration successful:", response.data);
+    console.log("Registration successful:", response.data);
 
-      alert("Account created successfully!");
+    alert("Account created successfully!");
+    navigate("/login");
 
-      navigate("/login");
-    } catch (error) {
-      console.log("STATUS:", error.response?.status);
-      console.log("DATA:", error.response?.data);
-      console.log("MESSAGE:", error.message);
+  } catch (error) {
+    console.log("STATUS:", error.response?.status);
+    console.log("DATA:", error.response?.data);
+    console.log("MESSAGE:", error.message);
 
-      alert(
-        error.response?.data?.message ||
-          "Registration failed. Please try again."
-      );
-    }
-  };
+    alert(
+      error.response?.data?.message ||
+      "Registration failed. Please try again."
+    );
+  }
+};
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#F7F8F4] px-6 py-12">
@@ -205,9 +211,9 @@ function RegisterPage() {
                   Select your barangay
                 </option>
 
-                {barangays.map((b) => (
-                  <option key={b} value={b}>
-                    {b}
+                {barangays.map((barangay) => (
+                  <option key={barangay.id} value={barangay.id}>
+                    {barangay.barangay_name}
                   </option>
                 ))}
               </select>

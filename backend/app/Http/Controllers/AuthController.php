@@ -36,25 +36,37 @@ class AuthController extends Controller
         ]);
     }
      public function register (Request $request) {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:225'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'min:8', 'confirmed'],
-        ]);
-        $user = App\Models\User::create([
-            'name' =>  $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-            'role' => 'citizen',
-        ]);
-        return response()->json([
-            'message' => 'Registration Successful',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->role,
-            ],
-        ], 201);
-     }
+         $validated = $request->validate([
+        'first_name' => ['required', 'string', 'max:255'],
+        'last_name' => ['required', 'string', 'max:255'],
+        'contact_number' => ['required', 'string', 'max:20'],
+        'address' => ['required', 'string'],
+        'barangay_id' => ['required', 'exists:barangays,id'],
+        'email' => ['required', 'email', 'unique:users,email'],
+        'password' => ['required', 'min:8', 'confirmed'],
+    ]);
+
+    $user = \App\Models\User::create([
+        'name' => $validated['first_name'] . ' ' . $validated['last_name'],
+        'email' => $validated['email'],
+        'password' => $validated['password'],
+        'role' => 'citizen',
+    ]);
+         \App\Models\Citizen::create([
+        'user_id' => $user->id,
+        'contact_number' => $validated['contact_number'],
+        'address' => $validated['address'],
+        'barangay_id' => $validated['barangay_id'],
+    ]);
+
+    return response()->json([
+        'message' => 'Registration successful',
+        'user' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+        ],
+    ], 201);
+    }
 }

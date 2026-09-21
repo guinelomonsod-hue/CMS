@@ -14,12 +14,6 @@ import {
 import logo from '../assets/logo.jpg'
 import { useNavigate } from 'react-router-dom';
 
-const handleLogout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-
-  navigate("/login");
-};
 
 const stats = [
   { label: 'Total Complaints', value: 248, icon: ClipboardList },
@@ -125,6 +119,16 @@ const navItems = [
 ]
 
 function AdminDashboard() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    navigate("/login");
+
+  };
+
 
   return (
     <div className="flex min-h-screen bg-[#F7F8F4]">
@@ -153,8 +157,8 @@ function AdminDashboard() {
                 key={item.label}
                 href={item.href}
                 className={`flex items-center gap-3 rounded px-3 py-2.5 text-sm font-medium transition-colors ${item.active
-                    ? 'bg-[#1F7A4D] text-white'
-                    : 'text-[#3f4a43] hover:bg-[#F7F8F4]'
+                  ? 'bg-[#1F7A4D] text-white'
+                  : 'text-[#3f4a43] hover:bg-[#F7F8F4]'
                   }`}
               >
                 <Icon size={18} />
